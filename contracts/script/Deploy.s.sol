@@ -6,11 +6,11 @@ import "../src/MarketFactory.sol";
 
 contract Deploy is Script {
     // G$ on Celo mainnet
-    address constant G_DOLLAR  = 0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c14;
+   address constant G_DOLLAR = 0x62B8b11039fcfe5Ab0c56E502B1c372a3d2a9C14;
 
     // GoodDollar Identity contract on Celo mainnet
     // verify latest address at https://docs.gooddollar.org
-    address constant IDENTITY  = 0x...;  // fill before deploy
+    address constant IDENTITY  = 0xc361A6e66093BC6FB7dD925244354011E4911Ac9;
 
     function run() external {
         uint256 deployerKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
