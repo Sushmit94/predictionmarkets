@@ -1,0 +1,32 @@
+{
+  "name": "celomarket-indexer",
+  "version": "1.0.0",
+  "description": "Event indexer for CeloMarket prediction markets",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/index.ts",
+    "migrate": "ts-node --compiler-options '{\"module\":\"commonjs\"}' src/db/migrate.ts"
+  },
+  "ts-node": {
+    "esm": false,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.30.10",
+    "ethers": "^6.11.1",
+    "ioredis": "^5.3.2",
+    "pg": "^8.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/pg": "^8.11.5",
+    "drizzle-kit": "^0.21.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
