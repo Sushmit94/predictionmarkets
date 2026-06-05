@@ -178,46 +178,16 @@ Winning shares burned → G$ sent back at rate:
 
 | Service | Platform |
 |---|---|
-| Smart Contracts | Hardhat → Celo Mainnet |
+| Smart Contracts | Foundry → Celo Mainnet |
 | Indexer | Railway / Render (always-on worker) |
 | REST API + WebSocket | Railway / Render (web service) |
 | PostgreSQL | Railway managed Postgres / Supabase |
 | Redis | Railway managed Redis / Upstash |
 | Frontend | Vercel |
 
----
 
-## ⚙️ Environment Variables
 
-```env
-# Blockchain
-CELO_RPC_URL=https://forno.celo.org
-FACTORY_CONTRACT_ADDRESS=0x...
-GDOLLAR_ADDRESS=0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c14
-IDENTITY_ADDRESS=0x...
 
-# Infrastructure
-DATABASE_URL=postgresql://...
-REDIS_URL=redis://...
-
-# Deployment only
-DEPLOYER_PRIVATE_KEY=...
-```
-
-> ⚠️ Never commit `DEPLOYER_PRIVATE_KEY` to version control. Use `.env.local` or secret manager.
-
----
-
-## 📅 7-Day Build Plan
-
-```
-Day 1–2  │ Smart Contracts   — write, test with Hardhat fork, deploy to Celo mainnet
-Day 2–3  │ Indexer           — sync from factory deploy block, verify Postgres writes
-Day 3–4  │ API               — REST endpoints + WebSocket live price stream
-Day 4–5  │ Frontend          — market list → detail → trade panel → G$ buy flow
-Day 5–6  │ Identity + Polish — GoodDollar gate, portfolio page, UX refinement
-Day 7    │ Buffer            — stress test, edge cases, demo prep (3–4 live markets)
-```
 
 ---
 
@@ -225,7 +195,7 @@ Day 7    │ Buffer            — stress test, edge cases, demo prep (3–4 liv
 
 ```
 celomarket/
-├── contracts/              # Solidity — Hardhat project
+├── contracts/              # Solidity — Foundry project
 │   ├── MarketFactory.sol
 │   ├── PredictionMarket.sol
 │   ├── ConditionalTokens.sol
@@ -278,7 +248,7 @@ celomarket/
 
 - [Celo Mainnet RPC](https://forno.celo.org) — free public endpoint
 - [GoodDollar Identity SDK](https://docs.gooddollar.org/for-developers/apis-and-sdks/sybil-resistance)
-- [G$ Token on Celo](https://celoscan.io/token/0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c14)
+- [G$ Token on Celo](https://celoscan.io/token/0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c7A)
 - [PRBMath](https://github.com/PaulRBerg/prb-math) — fixed-point math library
 - [OpenZeppelin Clones](https://docs.openzeppelin.com/contracts/4.x/api/proxy#Clones)
 

@@ -16,6 +16,16 @@ contract MockGDollar is ERC20 {
     }
 }
 
+/// @notice Mock fee-on-transfer G$ behavior for mainnet accounting tests
+contract MockFeeGDollar is MockGDollar {
+    function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
+        uint256 fee = amount / 100;
+        super.transferFrom(from, to, amount - fee);
+        super.transferFrom(from, address(0xFEE), fee);
+        return true;
+    }
+}
+
 /// @notice Mock identity — everyone is whitelisted
 contract MockIdentity {
     function isWhitelisted(address) external pure returns (bool) {
@@ -86,6 +96,33 @@ contract PredictionMarketTest is Test {
         assertEq(market.tokens().balanceOf(trader1, 1), shares);
     }
 
+    function test_BuyAccountsForActualReceivedCollateral() public {
+        MockFeeGDollar feeGDollar = new MockFeeGDollar();
+        MarketFactory feeFactory = new MarketFactory(address(feeGDollar), address(identity), oracle);
+
+        (, address feeMarketAddr) = feeFactory.createMarket(
+            "Will fee-on-transfer accounting work?",
+            "dev",
+            "",
+            END_TIME,
+            LIQUIDITY
+        );
+
+        PredictionMarket feeMarket = PredictionMarket(feeMarketAddr);
+        feeGDollar.mint(trader1, 10_000e18);
+
+        vm.prank(trader1);
+        feeGDollar.approve(address(feeMarket), type(uint256).max);
+
+        uint256 quote = feeMarket.getBuyQuote(1, 10e18);
+
+        vm.prank(trader1);
+        feeMarket.buy(1, 10e18, quote);
+
+        assertEq(feeMarket.totalCollateral(), feeGDollar.balanceOf(address(feeMarket)));
+        assertEq(feeMarket.totalCollateral(), quote - (quote / 100));
+    }
+
     function test_BuyShiftsPriceUp() public {
         uint256 priceYesBefore = market.priceYes();
 
@@ -137,6 +174,25 @@ contract PredictionMarketTest is Test {
         market.redeem();
 
         assertGt(gDollar.balanceOf(trader1), balBefore);
+    }
+
+    function test_RedeemDoesNotDiluteWinnersWithVirtualLiquidity() public {
+        vm.prank(trader1);
+        market.buy(1, 20e18, type(uint256).max);
+
+        uint256 collateralBeforeResolve = market.totalCollateral();
+
+        vm.warp(END_TIME + 1);
+        vm.prank(oracle);
+        market.resolve(1);
+
+        uint256 balBefore = gDollar.balanceOf(trader1);
+
+        vm.prank(trader1);
+        market.redeem();
+
+        assertApproxEqAbs(gDollar.balanceOf(trader1), balBefore + collateralBeforeResolve, 1);
+        assertLe(market.totalCollateral(), 1);
     }
 
     function test_RevertIf_ResolveTooEarly() public {

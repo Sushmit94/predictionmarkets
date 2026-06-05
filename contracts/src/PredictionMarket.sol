@@ -143,9 +143,11 @@ contract PredictionMarket is ReentrancyGuard {
         uint256 cost = LMSR.tradeCost(qYesBefore, qNoBefore, qYes, qNo, liquidityParam);
         require(cost <= maxCost, "PM: slippage exceeded");
 
-        totalCollateral += cost;
-
+        uint256 balanceBefore = gDollar.balanceOf(address(this));
         gDollar.safeTransferFrom(msg.sender, address(this), cost);
+        uint256 received = gDollar.balanceOf(address(this)) - balanceBefore;
+        totalCollateral += received;
+
         tokens.mint(msg.sender, outcome, shares);
 
         emit SharesBought(msg.sender, outcome, shares, cost);
@@ -212,11 +214,12 @@ contract PredictionMarket is ReentrancyGuard {
         uint256 winningShares = tokens.balanceOf(msg.sender, winningOutcome);
         require(winningShares > 0, "PM: no winning shares");
 
-        uint256 totalWinningShares = (winningOutcome == YES) ? qYes : qNo;
+        uint256 totalWinningShares = ((winningOutcome == YES) ? qYes : qNo) - liquidityParam;
         require(totalWinningShares > 0, "PM: no winning shares exist");
 
         // proportional payout: user's share of total winning pool
         uint256 payout = (winningShares * totalCollateral) / totalWinningShares;
+        totalCollateral -= payout;
 
         tokens.burn(msg.sender, winningOutcome, winningShares);
         gDollar.safeTransfer(msg.sender, payout);
