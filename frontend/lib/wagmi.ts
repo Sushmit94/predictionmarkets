@@ -11,8 +11,8 @@ export const wagmiConfig = getDefaultConfig({
 // Celo mainnet contract addresses
 export const CONTRACTS = {
   FACTORY:  "0xA35814251801859b5bD0f649c62cf7507DE852C7",
-  G_DOLLAR: "0xFa51eFDc0910CCdA91732e6806912Fa12e2FD475", // dev G$ for buildathon
-  IDENTITY: "0xF25fA0D4896271228193E782831F6f3CFCcF169C",
+  G_DOLLAR: "0x62B8B11039FcfE5aB0C56E502b1C372A3d462a4", // dev G$ for buildathon
+ IDENTITY: "0xC361A6E67822a0EDc17D899227dd9FC50BD62F42",
 } as const;
 
 export const PREDICTION_MARKET_ABI = [
