@@ -26,7 +26,7 @@ interface PositionsResponse {
 async function requestJson<T>(path: string): Promise<T | null> {
   try {
     const response = await fetch(`${API_BASE_URL}${path}`, {
-      next: { revalidate: 10 },
+      cache: "no-store",
     });
 
     if (!response.ok) return null;

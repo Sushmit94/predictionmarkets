@@ -10,9 +10,11 @@ export const wagmiConfig = getDefaultConfig({
 
 // Celo mainnet contract addresses
 export const CONTRACTS = {
-  FACTORY:  "0xA35814251801859b5bD0f649c62cf7507DE852C7",
-  G_DOLLAR: "0x62B8B11039FcfE5aB0C56E502b1C372A3d462a4", // dev G$ for buildathon
- IDENTITY: "0xC361A6E67822a0EDc17D899227dd9FC50BD62F42",
+  FACTORY: "0xA35814251801859b5bD0f649c62cf7507DE852C7",
+  G_DOLLAR: "0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c7A", // GoodDollar on Celo mainnet
+  DEV_G_DOLLAR: "0xFa51eFDc0910CCdA91732e6806912Fa12e2FD475",
+  IDENTITY: "0xC361A6E67822a0EDc17D899227dd9FC50BD62F42",
+  DEV_IDENTITY: "0xF25fA0D4896271228193E782831F6f3CFCcF169C",
 } as const;
 
 export const PREDICTION_MARKET_ABI = [
@@ -73,6 +75,27 @@ export const PREDICTION_MARKET_ABI = [
     inputs: [],
     outputs: [{ type: "uint8" }],
   },
+  {
+    name: "liquidityParam",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ type: "uint256" }],
+  },
+  {
+    name: "gDollar",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ type: "address" }],
+  },
+  {
+    name: "identity",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ type: "address" }],
+  },
 ] as const;
 
 export const ERC20_ABI = [
@@ -82,7 +105,7 @@ export const ERC20_ABI = [
     stateMutability: "nonpayable",
     inputs: [
       { name: "spender", type: "address" },
-      { name: "amount",  type: "uint256" },
+      { name: "amount", type: "uint256" },
     ],
     outputs: [{ type: "bool" }],
   },
@@ -91,7 +114,7 @@ export const ERC20_ABI = [
     type: "function",
     stateMutability: "view",
     inputs: [
-      { name: "owner",   type: "address" },
+      { name: "owner", type: "address" },
       { name: "spender", type: "address" },
     ],
     outputs: [{ type: "uint256" }],

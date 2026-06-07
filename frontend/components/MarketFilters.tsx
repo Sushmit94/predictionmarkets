@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { MarketSort, MarketStatus } from "@/lib/types";
 
-const statuses: MarketStatus[] = ["active", "resolved", "all"];
+const statuses: MarketStatus[] = ["active", "ended", "resolved", "all"];
 const sorts: MarketSort[] = ["newest", "ending", "volume"];
 
 export function MarketFilters({ status, sort }: { status: MarketStatus; sort: MarketSort }) {

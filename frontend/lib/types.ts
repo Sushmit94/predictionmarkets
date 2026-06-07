@@ -1,4 +1,4 @@
-export type MarketStatus = "active" | "resolved" | "all";
+export type MarketStatus = "active" | "ended" | "resolved" | "all";
 export type MarketSort = "newest" | "ending" | "volume";
 export type Outcome = 0 | 1;
 

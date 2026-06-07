@@ -23,16 +23,13 @@ dotenv.config({ path: "./contracts/.env" });
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
-// ⚠️  Replace with your actual Market contract ABI resolve function
-// This assumes your Market contract has: resolveMarket(bool outcome)
-// Adjust the function name / args to match your actual contract
 const MARKET_ABI = [
   {
-    name: "resolveMarket",
+    name: "resolve",
     type: "function",
     stateMutability: "nonpayable",
     inputs: [
-      { name: "outcome", type: "bool" }, // true = YES wins, false = NO wins
+      { name: "outcome", type: "uint8" }, // 0 = NO wins, 1 = YES wins
     ],
     outputs: [],
   },
@@ -68,11 +65,7 @@ const FACTORY_ABI = [
     type: "function",
     stateMutability: "view",
     inputs: [{ name: "marketId", type: "uint256" }],
-    outputs: [
-      { name: "marketAddress", type: "address" },
-      { name: "question",      type: "string"  },
-      { name: "resolved",      type: "bool"    },
-    ],
+    outputs: [{ name: "marketAddress", type: "address" }],
   },
 ] as const;
 
@@ -206,16 +199,18 @@ async function main() {
         continue;
       }
 
-      // Get market address from factory
-      const marketData = await publicClient.readContract({
+      const marketAddress = await publicClient.readContract({
         address:      FACTORY_ADDRESS,
         abi:          FACTORY_ABI,
         functionName: "markets",
         args:         [marketId],
       });
 
-      const marketAddress = marketData[0] as `0x${string}`;
-      const alreadyResolved = marketData[2] as boolean;
+      const alreadyResolved = await publicClient.readContract({
+        address:      marketAddress,
+        abi:          MARKET_ABI,
+        functionName: "resolved",
+      });
 
       if (alreadyResolved) {
         console.log(`   ℹ️  Already resolved on-chain. Skipping.`);
@@ -234,13 +229,14 @@ async function main() {
       }
 
       const outcome = determineOutcome(market, currentPrice);
+      const winningOutcome = outcome ? 1 : 0;
 
       // Call resolveMarket on the individual market contract
       const hash = await walletClient.writeContract({
         address:      marketAddress,
         abi:          MARKET_ABI,
-        functionName: "resolveMarket",
-        args:         [outcome],
+        functionName: "resolve",
+        args:         [winningOutcome],
       });
 
       console.log(`   ✅ Resolved ${outcome ? "YES" : "NO"} — TX: https://celoscan.io/tx/${hash}`);

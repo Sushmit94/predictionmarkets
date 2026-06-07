@@ -16,6 +16,14 @@
     "threshold": 0.0577
   },
   {
+    "externalId": "custom-eth-20m-1780749098116",
+    "question": "Will ETH price be above $1584.84 in 20 minutes?",
+    "endTime": 1780750298,
+    "coin": "ethereum",
+    "direction": "above",
+    "threshold": 1584.84
+  },
+  {
     "externalId": "dev-gd-hold-1780749098116",
     "question": "Will GoodDollar (G$) price stay above $0.0001103 in 5 minutes?",
     "endTime": 1780749698,

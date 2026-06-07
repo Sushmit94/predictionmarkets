@@ -6,6 +6,9 @@ import { StatusBadge } from "./StatusBadge";
 export function MarketCard({ market }: { market: Market }) {
   const yesPercent = Math.round(market.yesProbability * 100);
   const noPercent = 100 - yesPercent;
+  const isEnded = !market.resolved && new Date(market.endTime).getTime() <= Date.now();
+  const statusLabel = market.resolved ? "Resolved" : isEnded ? "Ended" : "Active";
+  const statusTone = market.resolved ? "neutral" : isEnded ? "amber" : "green";
 
   return (
     <Link
@@ -13,7 +16,7 @@ export function MarketCard({ market }: { market: Market }) {
       className="group grid min-h-64 rounded-lg border border-[#dce8dd] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#35d07f] hover:shadow-md"
     >
       <div className="flex items-start justify-between gap-3">
-        <StatusBadge tone={market.resolved ? "neutral" : "green"}>{market.resolved ? "Resolved" : "Active"}</StatusBadge>
+        <StatusBadge tone={statusTone}>{statusLabel}</StatusBadge>
         <span className="text-sm font-medium text-[#5a6b60]">{timeUntil(market.endTime)}</span>
       </div>
 

@@ -1,8 +1,8 @@
-import { and, asc, desc, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, lte, sql } from "drizzle-orm";
 import { db, pool } from "./client";
 import { markets, priceHistory, trades } from "./schema";
 
-export type MarketStatus = "active" | "resolved" | "all";
+export type MarketStatus = "active" | "ended" | "resolved" | "all";
 export type MarketSort = "newest" | "ending" | "volume";
 
 export interface ListMarketsOptions {
@@ -37,6 +37,11 @@ function marketWhere(options: ListMarketsOptions) {
   }
   if (options.status === "active") {
     filters.push(eq(markets.resolved, false));
+    filters.push(gt(markets.endTime, new Date()));
+  }
+  if (options.status === "ended") {
+    filters.push(eq(markets.resolved, false));
+    filters.push(lte(markets.endTime, new Date()));
   }
   if (options.status === "resolved") {
     filters.push(eq(markets.resolved, true));

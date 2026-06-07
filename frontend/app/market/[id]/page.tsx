@@ -26,11 +26,18 @@ export default async function MarketDetail({ params }: { params: Promise<{ id: s
 
         <section className="mt-5 grid gap-6 lg:grid-cols-[1fr_360px]">
           <div>
-            <div className="flex flex-wrap items-center gap-3">
-              <StatusBadge tone={market.resolved ? "neutral" : "green"}>{market.resolved ? "Resolved" : "Active"}</StatusBadge>
-              <StatusBadge>{market.category ?? "General"}</StatusBadge>
-              <LivePriceIndicator marketId={market.id} />
-            </div>
+            {(() => {
+              const isEnded = !market.resolved && new Date(market.endTime).getTime() <= Date.now();
+              const statusLabel = market.resolved ? "Resolved" : isEnded ? "Ended" : "Active";
+              const statusTone = market.resolved ? "neutral" : isEnded ? "amber" : "green";
+              return (
+                <div className="flex flex-wrap items-center gap-3">
+                  <StatusBadge tone={statusTone}>{statusLabel}</StatusBadge>
+                  <StatusBadge>{market.category ?? "General"}</StatusBadge>
+                  <LivePriceIndicator marketId={market.id} />
+                </div>
+              );
+            })()}
             <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight tracking-normal text-[#132019]">{market.question}</h1>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-4">

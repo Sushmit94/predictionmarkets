@@ -6,7 +6,7 @@ import { getMarkets } from "@/lib/api";
 import { formatGdollar } from "@/lib/format";
 import type { MarketSort, MarketStatus } from "@/lib/types";
 
-const validStatuses = new Set(["active", "resolved", "all"]);
+const validStatuses = new Set(["active", "ended", "resolved", "all"]);
 const validSorts = new Set(["newest", "ending", "volume"]);
 
 export default async function Home({

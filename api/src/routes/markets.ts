@@ -7,7 +7,7 @@ import {
   type MarketSort,
   type MarketStatus,
 } from "../db/queries";
-import { getCachedMarket, setCachedMarket } from "../lib/redis";
+import { setCachedMarket } from "../lib/redis";
 import { parseLimit, parsePage, serializeMarket, serializePricePoint, serializeTrade } from "../lib/format";
 
 interface MarketQuery {
@@ -22,7 +22,7 @@ interface LimitQuery {
   limit?: string;
 }
 
-const MARKET_STATUSES = new Set(["active", "resolved", "all"]);
+const MARKET_STATUSES = new Set(["active", "ended", "resolved", "all"]);
 const MARKET_SORTS = new Set(["newest", "ending", "volume"]);
 
 export async function registerMarketRoutes(app: FastifyInstance): Promise<void> {
@@ -56,7 +56,6 @@ export async function registerMarketRoutes(app: FastifyInstance): Promise<void> 
   });
 
   app.get<{ Params: { id: string } }>("/markets/:id", async (request, reply) => {
-    const cached = await getCachedMarket(request.params.id);
     const market = await getMarketById(request.params.id);
 
     if (!market) {
@@ -67,7 +66,7 @@ export async function registerMarketRoutes(app: FastifyInstance): Promise<void> 
     const recentTrades = await getRecentTrades(request.params.id, 25);
 
     return reply.send({
-      data: cached ?? serializeMarket(market),
+      data: serializeMarket(market),
       recentTrades: recentTrades.map(serializeTrade),
     });
   });

@@ -27,12 +27,12 @@ export function TradePanel({ market }: { market: Market }) {
 
   // On-chain reads
   const { isWhitelisted, isLoading: identityLoading } = useIdentity(address);
-  const { balance, refetchBalance } = useGDollarBalance(address);
+  const { balance, balanceLoading, refetchBalance } = useGDollarBalance(address);
   const { allowance, refetchAllowance } = useGDollarAllowance(address, marketAddress);
 
   // Write hooks
   const { writeContract: writeApprove, data: approveTxHash, isPending: approving } = useWriteContract();
-  const { writeContract: writeTrade,   data: tradeTxHash,   isPending: trading }   = useWriteContract();
+  const { writeContract: writeTrade, data: tradeTxHash, isPending: trading } = useWriteContract();
 
   const { isLoading: waitingApprove, isSuccess: approveConfirmed } = useWaitForTransactionReceipt({
     hash: approveTxHash,
@@ -45,7 +45,7 @@ export function TradePanel({ market }: { market: Market }) {
 
   // Refresh after confirmation
   if (approveConfirmed) { refetchAllowance(); }
-  if (tradeConfirmed)   { refetchBalance();   }
+  if (tradeConfirmed) { refetchBalance(); }
 
   const preview = useMemo(() => {
     return previewBuy(
@@ -67,8 +67,9 @@ export function TradePanel({ market }: { market: Market }) {
     }
 
     if (identityLoading) {
-      return { label: "Checking identity…", disabled: true, action: () => {} };
+      return { label: "Checking identity…", disabled: true, action: () => { } };
     }
+    if (balanceLoading) return { label: "Loading balance…", disabled: true, action: () => { } };
 
     if (!isWhitelisted) {
       return {
@@ -79,15 +80,15 @@ export function TradePanel({ market }: { market: Market }) {
     }
 
     if (approving || waitingApprove) {
-      return { label: "Approving G$…", disabled: true, action: () => {} };
+      return { label: "Approving G$…", disabled: true, action: () => { } };
     }
 
     if (trading || waitingTrade) {
-      return { label: "Confirming…", disabled: true, action: () => {} };
+      return { label: "Confirming…", disabled: true, action: () => { } };
     }
 
     if (mode === "redeem") {
-      if (!market.resolved) return { label: "Market not resolved", disabled: true, action: () => {} };
+      if (!market.resolved) return { label: "Market not resolved", disabled: true, action: () => { } };
       return {
         label: "Redeem winnings",
         disabled: false,
@@ -96,8 +97,8 @@ export function TradePanel({ market }: { market: Market }) {
     }
 
     if (mode === "buy") {
-      if (!hasEnoughBalance) return { label: "Insufficient G$ balance", disabled: true, action: () => {} };
-      if (numericAmount <= 0)  return { label: "Enter an amount", disabled: true, action: () => {} };
+      if (!hasEnoughBalance) return { label: "Insufficient G$ balance", disabled: true, action: () => { } };
+      if (numericAmount <= 0) return { label: "Enter an amount", disabled: true, action: () => { } };
 
       if (needsApproval) {
         return {
@@ -129,7 +130,7 @@ export function TradePanel({ market }: { market: Market }) {
     }
 
     // sell mode
-    if (numericAmount <= 0) return { label: "Enter shares to sell", disabled: true, action: () => {} };
+    if (numericAmount <= 0) return { label: "Enter shares to sell", disabled: true, action: () => { } };
     return {
       label: `Sell ${outcome}`,
       disabled: false,
@@ -164,9 +165,8 @@ export function TradePanel({ market }: { market: Market }) {
             key={m}
             type="button"
             onClick={() => setMode(m)}
-            className={`h-9 rounded text-xs font-bold capitalize ${
-              mode === m ? "bg-white text-[#132019] shadow-sm" : "text-[#5a6b60] hover:bg-[#e6eee7]"
-            }`}
+            className={`h-9 rounded text-xs font-bold capitalize ${mode === m ? "bg-white text-[#132019] shadow-sm" : "text-[#5a6b60] hover:bg-[#e6eee7]"
+              }`}
           >
             {m}
           </button>
@@ -181,9 +181,8 @@ export function TradePanel({ market }: { market: Market }) {
               key={item}
               type="button"
               onClick={() => setOutcome(item)}
-              className={`h-11 rounded text-sm font-bold ${
-                outcome === item ? "bg-white text-[#132019] shadow-sm" : "text-[#5a6b60] hover:bg-[#e6eee7]"
-              }`}
+              className={`h-11 rounded text-sm font-bold ${outcome === item ? "bg-white text-[#132019] shadow-sm" : "text-[#5a6b60] hover:bg-[#e6eee7]"
+                }`}
             >
               {item}
             </button>

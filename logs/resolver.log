@@ -1,0 +1,140 @@
+◇ injected env (11) from contracts/.env // tip: ⌘ override existing { override: true }
+
+🔍 resolveMarkets.ts — 4:39:51 AM
+📋 Found 5 expired market(s) to resolve
+
+📊 Current prices: { celo: 0.059977, ethereum: 1594.18, gooddollar: 0.00011216 }
+
+
+🎯 Resolving: Will GoodDollar (G$) price be above $0.0001148 in 5 minutes?
+   ExternalId: dev-gd-pump-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will CELO price drop below $0.0577 in 5 minutes?
+   ExternalId: dev-celo-dip-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will ETH price be above $1584.84 in 20 minutes?
+   ExternalId: custom-eth-20m-1780749098116
+   Expired at: 12:51:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will GoodDollar (G$) price stay above $0.0001103 in 5 minutes?
+   ExternalId: dev-gd-hold-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will ETH price be above $1569.15 in 5 minutes?
+   ExternalId: dev-eth-ref-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+─────────────────────────────────────────
+🏁 Resolution run complete
+   ✅ Resolved: 0
+   ❌ Failed:   5
+   ⏳ Remaining in queue: 1
+◇ injected env (11) from contracts/.env // tip: ⌘ suppress logs { quiet: true }
+
+🔍 resolveMarkets.ts — 5:34:46 AM
+📋 Found 6 expired market(s) to resolve
+
+📊 Current prices: { celo: 0.060413, ethereum: 1600.53, gooddollar: 0.00011216 }
+
+
+🎯 Resolving: Will ETH price be above $1602.44 in 20 minutes?
+   ExternalId: custom-eth-20m-1780806258058
+   Expired at: 4:44:18 AM
+   ❌ Failed to resolve: Position `32` is out of bounds (`0 < position < 32`).
+
+Contract Call:
+  address:   0xA35814251801859b5bD0f649c62cf7507DE852C7
+  function:  markets(uint256 marketId)
+  args:             (13)
+
+Docs: https://viem.sh/docs/contract/readContract
+Version: viem@2.52.2
+
+🎯 Resolving: Will GoodDollar (G$) price be above $0.0001148 in 5 minutes?
+   ExternalId: dev-gd-pump-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will CELO price drop below $0.0577 in 5 minutes?
+   ExternalId: dev-celo-dip-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will ETH price be above $1584.84 in 20 minutes?
+   ExternalId: custom-eth-20m-1780749098116
+   Expired at: 12:51:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will GoodDollar (G$) price stay above $0.0001103 in 5 minutes?
+   ExternalId: dev-gd-hold-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will ETH price be above $1569.15 in 5 minutes?
+   ExternalId: dev-eth-ref-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+─────────────────────────────────────────
+🏁 Resolution run complete
+   ✅ Resolved: 0
+   ❌ Failed:   6
+   ⏳ Remaining in queue: 0
+◇ injected env (11) from contracts/.env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+
+🔍 resolveMarkets.ts — 5:38:26 AM
+📋 Found 6 expired market(s) to resolve
+
+📊 Current prices: { celo: 0.060457, ethereum: 1605.82, gooddollar: 0.00011216 }
+
+
+🎯 Resolving: Will ETH price be above $1602.44 in 20 minutes?
+   ExternalId: custom-eth-20m-1780806258058
+   Expired at: 4:44:18 AM
+   📍 Market address: 0x1d079C2d705F409fe9030653CA0f28832Ef30524
+   ethereum current price: $1605.82 | threshold: $1602.44 | direction: above | outcome: ✅ YES
+   ✅ Resolved YES — TX: https://celoscan.io/tx/0x99d3b8324c416f9826cc908ebf7d6e3af5421b93845546a9fdf972ce5b0369bc
+   ⛓  Confirmed in block 68909962
+
+🎯 Resolving: Will GoodDollar (G$) price be above $0.0001148 in 5 minutes?
+   ExternalId: dev-gd-pump-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will CELO price drop below $0.0577 in 5 minutes?
+   ExternalId: dev-celo-dip-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will ETH price be above $1584.84 in 20 minutes?
+   ExternalId: custom-eth-20m-1780749098116
+   Expired at: 12:51:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will GoodDollar (G$) price stay above $0.0001103 in 5 minutes?
+   ExternalId: dev-gd-hold-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+🎯 Resolving: Will ETH price be above $1569.15 in 5 minutes?
+   ExternalId: dev-eth-ref-1780749098116
+   Expired at: 12:41:38 PM
+   ⚠️  Market not found on-chain (externalId not registered). Skipping.
+
+─────────────────────────────────────────
+🏁 Resolution run complete
+   ✅ Resolved: 1
+   ❌ Failed:   5
+   ⏳ Remaining in queue: 0
+
+📋 Next steps:
+   1. Check your frontend — winning positions should show payout
+   2. Run: curl http://localhost:4000/markets to see resolved status
+   3. Your indexer should have picked up the MarketResolved events
