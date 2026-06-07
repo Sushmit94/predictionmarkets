@@ -13,7 +13,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </Link>
           <div className="flex items-center gap-1">
             <nav className="flex items-center gap-1 text-sm font-medium text-[#40564a]">
-              <Link className="rounded px-3 py-2 hover:bg-[#e9f3eb] hover:text-[#132019]" href="/">
+              <Link className="rounded px-3 py-2 hover:bg-[#e9f3eb] hover:text-[#132019]" href="/landing">
                 Markets
               </Link>
               <Link className="rounded px-3 py-2 hover:bg-[#e9f3eb] hover:text-[#132019]" href="/portfolio">

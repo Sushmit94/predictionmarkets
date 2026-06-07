@@ -20,7 +20,7 @@ export default async function MarketDetail({ params }: { params: Promise<{ id: s
   return (
     <AppShell>
       <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Link href="/" className="text-sm font-semibold text-[#2b9d62] hover:text-[#167344]">
+        <Link href="/landing" className="text-sm font-semibold text-[#2b9d62] hover:text-[#167344]">
           Back to markets
         </Link>
 
