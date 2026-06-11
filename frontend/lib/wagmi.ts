@@ -24,7 +24,7 @@ export const PREDICTION_MARKET_ABI = [
     stateMutability: "nonpayable",
     inputs: [
       { name: "outcome", type: "uint8" },
-      { name: "minShares", type: "uint256" },
+      { name: "shares", type: "uint256" },
       { name: "maxCost", type: "uint256" },
     ],
     outputs: [],
@@ -96,8 +96,58 @@ export const PREDICTION_MARKET_ABI = [
     inputs: [],
     outputs: [{ type: "address" }],
   },
+  {
+    name: "tokens",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ type: "address" }],
+  },
 ] as const;
 
+// ─── Add this to lib/wagmi.ts, after IDENTITY_ABI ────────────────────────────
+// This is the only change needed in wagmi.ts.
+// The admin page imports CONTRACTS.FACTORY which already exists.
+
+export const MARKET_FACTORY_ABI = [
+  {
+    name: "owner",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ type: "address" }],
+  },
+  {
+    name: "marketCount",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ type: "uint256" }],
+  },
+  {
+    name: "defaultLiquidityParam",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ type: "uint256" }],
+  },
+  {
+    name: "createMarket",
+    type: "function",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "question",       type: "string"  },
+      { name: "category",       type: "string"  },
+      { name: "externalId",     type: "string"  },
+      { name: "endTime",        type: "uint256" },
+      { name: "liquidityParam", type: "uint256" },
+    ],
+    outputs: [
+      { name: "marketId",      type: "uint256" },
+      { name: "marketAddress", type: "address" },
+    ],
+  },
+] as const;
 export const ERC20_ABI = [
   {
     name: "approve",
@@ -124,6 +174,19 @@ export const ERC20_ABI = [
     type: "function",
     stateMutability: "view",
     inputs: [{ name: "account", type: "address" }],
+    outputs: [{ type: "uint256" }],
+  },
+] as const;
+
+export const ERC1155_ABI = [
+  {
+    name: "balanceOf",
+    type: "function",
+    stateMutability: "view",
+    inputs: [
+      { name: "account", type: "address" },
+      { name: "id", type: "uint256" },
+    ],
     outputs: [{ type: "uint256" }],
   },
 ] as const;
